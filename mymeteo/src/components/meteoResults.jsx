@@ -1,5 +1,4 @@
 import React from "react";
-import '../index.css';
 import { useLocation } from "react-router-dom";
 
 export default function MeteoResults() {
@@ -7,7 +6,7 @@ export default function MeteoResults() {
   const { data } = location.state;
   console.log(data);
 
-  const updateBackgroundClass = (weatherData) => {
+  /*const updateBackgroundClass = (weatherData) => {
     if (weatherData.weather && weatherData.weather.length > 0) {
         switch (weatherData.weather[0].main) {
             case 'Clouds':
@@ -37,10 +36,10 @@ export default function MeteoResults() {
     } else {
         setBackgroundClass('undefinedBackground');
     }
-  };
+  };*/
 
   return (
-    <div className={`App ${backgroundClass}`}>
+    <div className={`App`}>
       <div className="container">
         <div className='top'>
           <div className='location'>
@@ -67,6 +66,7 @@ export default function MeteoResults() {
             <p>Wind Speed</p>
           </div>
         </div>
+        <button className="searchButton" onClick={() => window.history.back()}>Cerca ancora</button>
       </div>
     </div>
   );
