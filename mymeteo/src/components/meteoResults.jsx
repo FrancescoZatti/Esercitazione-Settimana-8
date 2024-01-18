@@ -1,73 +1,124 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import MyNavbar from "./MyNavbar";
+import { WiStrongWind, WiThermometer, WiHumidity } from "react-icons/wi";
+import Footer from './MyFooter';
 
 export default function MeteoResults() {
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
+  const [backgroundClass, setBackgroundClass] = useState('');
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  /*const updateBackgroundClass = (weatherData) => {
-    if (weatherData.weather && weatherData.weather.length > 0) {
+
+  useEffect(() => {
+    const updateBackgroundClass = (weatherData) => {
+      if (weatherData.weather && weatherData.weather.length > 0) {
         switch (weatherData.weather[0].main) {
-            case 'Clouds':
-                setBackgroundClass('appClouds');
-                break;
-            case 'Thunderstorm':
-                setBackgroundClass('appThunderstorm');
-                break;
-            case 'Snow':
-                setBackgroundClass('appSnow');
-                break;
-            case 'Clear':
-                setBackgroundClass('appClear');
-                break;
-            case 'Rain':
-                setBackgroundClass('appRain');
-                break;
-            case 'Drizzle':
-                setBackgroundClass('appDrizzle');
-                break;
-            case 'Mist':
-                setBackgroundClass('appMist');
-                break;
-            default:
-                setBackgroundClass('undefinedBackground');
+          case 'Clouds':
+            setBackgroundClass('appClouds');
+            break;
+          case 'Thunderstorm':
+            setBackgroundClass('appThunderstorm');
+            break;
+          case 'Snow':
+            setBackgroundClass('appSnow');
+            break;
+          case 'Clear':
+            setBackgroundClass('appClear');
+            break;
+          case 'Rain':
+            setBackgroundClass('appRain');
+            break;
+          case 'Drizzle':
+            setBackgroundClass('appDrizzle');
+            break;
+          case 'Mist':
+            setBackgroundClass('appMist');
+            break;
+          default:
+            setBackgroundClass('undefinedBackground');
         }
-    } else {
+      } else {
         setBackgroundClass('undefinedBackground');
-    }
-  };*/
+      }
+    };
+
+
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    updateBackgroundClass(data);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+
+  }, [data]);
 
   return (
-    <div className={`App`}>
-      <div className="container">
+    <div className={`App ${backgroundClass}`}>
+      <MyNavbar />
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '80%',
+        margin: 'auto',
+      }}>
         <div className='top'>
           <div className='location'>
             <p>{data?.name}</p>
           </div>
-          <div className='temp'>
+          <div className='temp d-flex align-items-center'>
+            <WiThermometer className="fs-1 me-1" />
             {data?.main ? <h1>{data.main.temp}°C</h1> : null}
           </div>
-          <div className='description'>
-            {data?.weather ? <p>{data.weather[0].main}</p> : null}
+          <div>
+            <div className='description'>
+              {data?.weather ? <p>{data.weather[0].main}</p> : null}
+            </div>
+            <img src={`https://openweathermap.org/img/wn/${data?.weather?.[0]?.icon}@2x.png`} width="100px" alt="weather"/>
           </div>
         </div>
-        <div className='bottom'>
-          <div className='feels'>
-          {data?.main ? <p className='bold'>{data.main.feels_like}°C</p> : null}
-            <p>Feels Like</p>
-          </div>
-          <div className='humidity'>
-            {data?.main ? <p className='bold'>{data.main.humidity}%</p> : null}
-            <p>Humidity</p>
-          </div>
-          <div className='wind'>
-          {data?.wind ? <p className='bold'>{data.wind.speed} km/h</p> : null}
-            <p>Wind Speed</p>
-          </div>
-        </div>
-        <button className="searchButton" onClick={() => window.history.back()}>Cerca ancora</button>
+        <div
+        className={`bottom d-flex flex-wrap ${
+          windowWidth <= 767 ? 'flex-column' : windowWidth >= 768 ? 'flex-row' : ''
+        }`}
+      >
+  <div className='feels sm-m-3'>
+    <div className='d-flex'>
+      <WiThermometer className="fs-1 me-1" />
+      <p>Percepita</p>
+    </div>
+    {data?.main ? <p className='bold'>{data.main.feels_like}°C</p> : null}           
+  </div>
+  <div className='humidity sm-m-3'>
+    <div className='d-flex'>
+      <WiHumidity className="fs-1 me-1" />
+      <p>Umidità</p>
+    </div>
+    {data?.main ? <p className='bold'>{data.main.humidity}%</p> : null}
+  </div>
+  <div className='wind sm-m-3'>
+    <div className='d-flex'>
+      <WiStrongWind className="fs-1 me-1" />
+      <p>Vento</p>
+    </div>
+    {data?.wind ? <p className='bold'>{data.wind.speed} km/h</p> : null}
+  </div>
+</div>
+
+        <button className="searchButton mt-4 mb-5 py-2" onClick={() => window.history.back()}>
+            Cerca altre località
+        </button>
       </div>
+      <Footer />
     </div>
   );
 }
+
+
