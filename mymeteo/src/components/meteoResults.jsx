@@ -66,7 +66,7 @@ export default function MeteoResults() {
   }, [data]);
 
   return (
-    <div className={`App`}>
+    <div className="App">
       <MyNavbar />
       <div className={`todayWeather ${backgroundClass}`} style={{
         display: 'flex',
