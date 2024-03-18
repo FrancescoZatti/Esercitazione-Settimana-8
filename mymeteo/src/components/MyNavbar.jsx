@@ -3,10 +3,12 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { WiDaySleetStorm } from "react-icons/wi";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+// Definisco il mio componente MyNavbar
 export default function MyNavbar() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    // Gestisco il click sul link Preferiti
     const handlePreferitiClick = () => {
         if (location.pathname !== '/') {
             navigate('/', { hash: '#preferiti' });
@@ -18,6 +20,7 @@ export default function MyNavbar() {
         }
     };
 
+    // Ritorno JSX per rendere il componente MyNavbar
     return (
         <>
             <Navbar className="navBar px-4" style={{ position: 'sticky', top: 0, zIndex: 100 }} expand="lg">

@@ -5,6 +5,7 @@ import { WiStrongWind, WiThermometer, WiHumidity } from "react-icons/wi";
 import Footer from './MyFooter';
 import ForecastCards from './ForecastCards';
 
+// Definisco il mio componente MeteoResults
 export default function MeteoResults() {
   const location = useLocation();
   const { data } = location.state;
@@ -12,12 +13,11 @@ export default function MeteoResults() {
   const [backgroundClass, setBackgroundClass] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-
-  console.log(data);
-  console.log(data2);
-
+  // console.log(data);
+  // console.log(data2);
 
   useEffect(() => {
+    // Aggiorno la classe di sfondo in base ai dati meteorologici
     const updateBackgroundClass = (weatherData) => {
       if (weatherData.weather && weatherData.weather.length > 0) {
         switch (weatherData.weather[0].main) {
@@ -50,8 +50,7 @@ export default function MeteoResults() {
       }
     };
 
-
-
+    // Gestisco il ridimensionamento della finestra
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -65,6 +64,7 @@ export default function MeteoResults() {
 
   }, [data]);
 
+  // Ritorno JSX per rendere il componente MeteoResults
   return (
     <div className="App">
       <MyNavbar />
@@ -138,5 +138,3 @@ export default function MeteoResults() {
     </div>
   );
 }
-
-

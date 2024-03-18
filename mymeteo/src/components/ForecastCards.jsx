@@ -3,16 +3,19 @@ import { useLocation } from 'react-router-dom';
 import { WiStrongWind, WiThermometer, WiHumidity } from "react-icons/wi";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
+// Definisco il mio componente ForecastCards
 export default function ForecastCards() {
     const location = useLocation();
     const { data2 } = location.state;
     const [isOpen, setIsOpen] = useState(false);
 
+    // Filtrare le date per mostrare solo le previsioni del mezzogiorno dei prossimi 5 giorni
     const dateFilter = data2.filter(item => item.dt_txt.includes('12:00:00')).map(item => {
         const date = new Date(item.dt_txt);
         return date;
     });
 
+    // Ottenere la classe di sfondo in base ai dati meteorologici
     const getBackgroundClass = (weatherData) => {
       if (weatherData.weather && weatherData.weather.length > 0) {
         switch (weatherData.weather[0].main) {
@@ -38,6 +41,7 @@ export default function ForecastCards() {
       }
     };
 
+    // Ritorno JSX per rendere il componente ForecastCards
     return (
       <div
       style={{
@@ -76,7 +80,7 @@ export default function ForecastCards() {
                 }}>
                   <p key={index} className='fs-5'><WiThermometer className="fs-1 me-1" />Temperatura Percepita: {weatherData.main.feels_like} °C</p>
                   <hr />
-                  <p key={index} className='fs-5'><WiHumidity className="fs-1 me-1" />Umidità: {weatherData.main.humidity} %</p>
+                  <p key={index} className='fs-5'><WiHumidity className="fs-1 me-1" />Umidità: {weatherData.main.humidity} %</p>
                   <hr />
                   <p key={index} className='fs-5'><WiStrongWind className="fs-1 me-1" />Vento: {weatherData.wind.speed} km/h</p>
                 </div>
